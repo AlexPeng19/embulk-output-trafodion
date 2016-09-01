@@ -11,27 +11,30 @@ TODO: Write short description here and build.gradle file.
 
 ## Configuration
 
-- **option1**: description (integer, required)
-- **option2**: description (string, default: `"myvalue"`)
-- **option3**: description (string, default: `null`)
+- **host**: database host name (string, required)
+- **port**: database port number (integer, default: 3306)
+- **user**: database login user name (string, required)
+- **password**: database login password (string, default: "")
+- **database**: destination database name (string, required)
+- **table**: destination table name (string, required)
 
 ## Example
 
 ```yaml
 out:
 type: trafodion
-host: 10.10.10.8
-user: trafodion
-password: traf123
-database: trafodion
-schema: alex
-table: EMBULK_TEST
-mode: insert_direct
+host: localhost 
+user: my_user 
+password: my_passwd
+database: my_database
+schema: schema_name
+table: table_name
+mode: insert
 ```
 
 
 ## Build
 
 ```
-$ ./gradlew gem  # -t to watch change of files and rebuild continuously
+$ ./gradlew gem 
 ```

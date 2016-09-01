@@ -19,9 +19,14 @@ TODO: Write short description here and build.gradle file.
 
 ```yaml
 out:
-  type: trafodion
-  option1: example1
-  option2: example2
+type: trafodion
+host: 10.10.10.8
+user: trafodion
+password: traf123
+database: trafodion
+schema: alex
+table: EMBULK_TEST
+mode: insert_direct
 ```
 
 

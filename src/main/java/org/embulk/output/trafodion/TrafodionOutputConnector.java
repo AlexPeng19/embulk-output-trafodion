@@ -12,19 +12,21 @@ public class TrafodionOutputConnector
     private final Driver driver;
     private final String url;
     private final Properties properties;
+    private final String schema;
 
-    public TrafodionOutputConnector(String url, Properties properties)
+    public TrafodionOutputConnector(String url, Properties properties,String schema)
     {
         this.driver=new org.trafodion.jdbc.t4.T4Driver();
         this.url = url;
         this.properties = properties;
+	this.schema=schema;
     }
 
     public TrafodionOutputConnection connect(boolean autoCommit) throws SQLException
     {
         Connection c = driver.connect(url, properties);
         try {
-            TrafodionOutputConnection con = new TrafodionOutputConnection(c,autoCommit);
+            TrafodionOutputConnection con = new TrafodionOutputConnection(c,autoCommit,this.schema);
             c = null;
             return con;
         } finally {

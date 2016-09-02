@@ -38,8 +38,8 @@ public class TrafodionOutputPlugin
 	@ConfigDefault("trafodion")
         public String getDatabase();
         
-       // @Config("schema")
-        //public String getSchema();
+       @Config("schema")
+       public String getSchema();
         
     }
 
@@ -107,7 +107,7 @@ public class TrafodionOutputPlugin
         logger.info("Connecting to {} options {}", url, props);
         props.setProperty("password", trafodionTask.getPassword());
 	logger.info("url--------:"+url+"props-------:"+props);
-        return new TrafodionOutputConnector(url, props);
+        return new TrafodionOutputConnector(url, props,trafodionTask.getSchema());
     }
 
     @Override

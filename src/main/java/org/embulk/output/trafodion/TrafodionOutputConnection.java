@@ -13,11 +13,11 @@ import org.embulk.output.jdbc.MergeConfig;
 public class TrafodionOutputConnection
         extends JdbcOutputConnection
 {
-    public TrafodionOutputConnection(Connection connection, boolean autoCommit)
+    public TrafodionOutputConnection(Connection connection, boolean autoCommit,String schema)
             throws SQLException
     {
         super(connection,null);
-	setSearchPath("alex");
+	setSearchPath(schema);
         connection.setAutoCommit(autoCommit);
     }
     /*@Override

@@ -17,6 +17,7 @@ public class TrafodionOutputConnection
             throws SQLException
     {
         super(connection,null);
+	System.out.println("connection------------------------------------:"+connection);
 		//setSearchPath(schema);
         connection.setAutoCommit(autoCommit);
     }

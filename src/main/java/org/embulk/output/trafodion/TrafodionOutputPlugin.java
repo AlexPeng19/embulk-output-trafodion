@@ -20,14 +20,15 @@ public class TrafodionOutputPlugin
     public interface TrafodionPluginTask
             extends PluginTask
     {
-        @Config("host")
+        /*@Config("host")
+	@ConfigDefault("null")
         public String getHost();
 
         @Config("port")
         @ConfigDefault("23400")
-        public int getPort();
+        public int getPort();*/
 		
-		@Config("url")
+	@Config("url")
         @ConfigDefault("null")
         public Optional<String> getUrl();
 
@@ -67,15 +68,26 @@ public class TrafodionOutputPlugin
     {
     	TrafodionPluginTask trafodionTask = (TrafodionPluginTask) task;
 
-	String url=null;
+	String url=new String();
        if (trafodionTask.getUrl().isPresent()) {
             url = trafodionTask.getUrl().get();
         } else {
-            url = String.format("jdbc:t4jdbc://%s:%d/:",
-                trafodionTask.getHost(), trafodionTask.getPort());
+           // url = String.format("jdbc:t4jdbc://%s:%d/:",
+            //    trafodionTask.getHost(), trafodionTask.getPort());
         }
-		Properties props = new Properties();
-        props.putAll(trafodionTask.getOptions());
+	System.out.println("-----------------------------------"+ url);
+	Properties props = new Properties();
+        props.setProperty("rewriteBatchedStatements", "true");
+        props.setProperty("useCompression", "true");
+	props.setProperty("connectTimeout", "300000"); // milliseconds
+        props.setProperty("socketTimeout", "1800000");
+	props.setProperty("tcpKeepAlive", "true");
+	if (!retryableMetadataOperation) {
+            // non-retryable batch operation uses longer timeout
+                         props.setProperty("connectTimeout",  "300000");  // milliseconds
+                                     props.setProperty("socketTimeout", "2700000");   // milliseconds
+                                             } 
+	props.putAll(trafodionTask.getOptions());
 
         props.setProperty("user", trafodionTask.getUser());
         logger.info("Connecting to {} options {}", url, props);

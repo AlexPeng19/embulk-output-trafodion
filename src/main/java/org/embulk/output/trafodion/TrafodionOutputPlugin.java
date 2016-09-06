@@ -20,12 +20,12 @@ public class TrafodionOutputPlugin
     public interface TrafodionPluginTask
             extends PluginTask
     {
-        @Config("host")
-        public String getHost();
+        //@Config("host")
+        //public String getHost();
 
-        @Config("port")
-        @ConfigDefault("23400")
-        public int getPort();
+        //@Config("port")
+        //@ConfigDefault("23400")
+        //public int getPort();
 
         @Config("user")
         public String getUser();
@@ -34,12 +34,12 @@ public class TrafodionOutputPlugin
         @ConfigDefault("\"\"")
         public String getPassword();
 
-        @Config("database")
-	@ConfigDefault("trafodion")
-        public String getDatabase();
+        //@Config("database")
+		//@ConfigDefault("trafodion")
+        //public String getDatabase();
         
-       @Config("schema")
-       public String getSchema();
+       //@Config("schema")
+       //public String getSchema();
         
     }
 
@@ -65,49 +65,19 @@ public class TrafodionOutputPlugin
         String url = String.format("jdbc:t4jdbc://%s:%d/:",
                 trafodionTask.getHost(), trafodionTask.getPort());
 
-        Properties props = new Properties();
-
-        props.setProperty("rewriteBatchedStatements", "true");
-        props.setProperty("useCompression", "true");
-
-        props.setProperty("connectTimeout", "300000"); // milliseconds
-        props.setProperty("socketTimeout", "1800000"); // smillieconds
-
-        // Enable keepalive based on tcp_keepalive_time, tcp_keepalive_intvl and tcp_keepalive_probes kernel parameters.
-        // Socket options TCP_KEEPCNT, TCP_KEEPIDLE, and TCP_KEEPINTVL are not configurable.
-        props.setProperty("tcpKeepAlive", "true");
-	//props.setProperty("schema", trafodionTask.getSchema());
-        // TODO
-        //switch t.getSssl() {
-        //when "disable":
-        //    break;
-        //when "enable":
-        //    props.setProperty("useSSL", "true");
-        //    props.setProperty("requireSSL", "false");
-        //    props.setProperty("verifyServerCertificate", "false");
-        //    break;
-        //when "verify":
-        //    props.setProperty("useSSL", "true");
-        //    props.setProperty("requireSSL", "true");
-        //    props.setProperty("verifyServerCertificate", "true");
-        //    break;
-        //}
-
-        if (!retryableMetadataOperation) {
-            // non-retryable batch operation uses longer timeout
-            props.setProperty("connectTimeout",  "300000");  // milliseconds
-            props.setProperty("socketTimeout", "2700000");   // milliseconds
+       if (trafodionTask.getUrl().isPresent()) {
+            url = trafodionTask.getUrl().get();
+        } else {
+            url = String.format("jdbc:t4jdbc://%s:%d/:",
+                trafodionTask.getHost(), trafodionTask.getPort());
         }
-
+		Properties props = new Properties();
         props.putAll(trafodionTask.getOptions());
-
-        // TODO validate task.getMergeKeys is null
 
         props.setProperty("user", trafodionTask.getUser());
         logger.info("Connecting to {} options {}", url, props);
         props.setProperty("password", trafodionTask.getPassword());
-	logger.info("url--------:"+url+"props-------:"+props);
-        return new TrafodionOutputConnector(url, props,trafodionTask.getSchema());
+        return new TrafodionOutputConnector(url, props);
     }
 
     @Override

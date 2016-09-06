@@ -13,11 +13,11 @@ import org.embulk.output.jdbc.MergeConfig;
 public class TrafodionOutputConnection
         extends JdbcOutputConnection
 {
-    public TrafodionOutputConnection(Connection connection, boolean autoCommit,String schema)
+    public TrafodionOutputConnection(Connection connection, boolean autoCommit)
             throws SQLException
     {
         super(connection,null);
-	setSearchPath(schema);
+		//setSearchPath(schema);
         connection.setAutoCommit(autoCommit);
     }
     /*@Override
@@ -27,7 +27,7 @@ public class TrafodionOutputConnection
             createTable(tableName, schema);
         }
     }*/
-    @Override
+    /*@Override
     protected void setSearchPath(String schema) throws SQLException {
 	Statement stmt = connection.createStatement();
         try {
@@ -37,7 +37,7 @@ public class TrafodionOutputConnection
         } finally {
             stmt.close();
         }
-    }
+    }*/
     @Override
     protected String buildPreparedInsertSql(String toTable, JdbcSchema toTableSchema) throws SQLException
     {

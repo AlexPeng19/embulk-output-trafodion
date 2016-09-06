@@ -26,6 +26,11 @@ public class TrafodionOutputPlugin
         //@Config("port")
         //@ConfigDefault("23400")
         //public int getPort();
+		
+		@Config("url")
+        @ConfigDefault("null")
+        public Optional<String> getUrl();
+
 
         @Config("user")
         public String getUser();

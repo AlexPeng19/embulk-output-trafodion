@@ -20,12 +20,12 @@ public class TrafodionOutputPlugin
     public interface TrafodionPluginTask
             extends PluginTask
     {
-        //@Config("host")
-        //public String getHost();
+        @Config("host")
+        public String getHost();
 
-        //@Config("port")
-        //@ConfigDefault("23400")
-        //public int getPort();
+        @Config("port")
+        @ConfigDefault("23400")
+        public int getPort();
 		
 		@Config("url")
         @ConfigDefault("null")
@@ -67,8 +67,6 @@ public class TrafodionOutputPlugin
     {
     	TrafodionPluginTask trafodionTask = (TrafodionPluginTask) task;
 
-        String url = String.format("jdbc:t4jdbc://%s:%d/:",
-                trafodionTask.getHost(), trafodionTask.getPort());
 
        if (trafodionTask.getUrl().isPresent()) {
             url = trafodionTask.getUrl().get();

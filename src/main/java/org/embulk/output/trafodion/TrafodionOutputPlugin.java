@@ -67,7 +67,7 @@ public class TrafodionOutputPlugin
     {
     	TrafodionPluginTask trafodionTask = (TrafodionPluginTask) task;
 
-
+	String url=null;
        if (trafodionTask.getUrl().isPresent()) {
             url = trafodionTask.getUrl().get();
         } else {

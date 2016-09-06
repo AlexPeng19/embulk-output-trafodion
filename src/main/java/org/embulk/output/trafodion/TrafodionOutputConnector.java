@@ -12,7 +12,6 @@ public class TrafodionOutputConnector
     private final Driver driver;
     private final String url;
     private final Properties properties;
-    private final String schema;
 
     public TrafodionOutputConnector(String url, Properties properties)
     {
